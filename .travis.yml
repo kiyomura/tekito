@@ -13,6 +13,7 @@ env:
     - ANDROID_API=28
     - EMULATOR_API=21
     - ANDROID_ABI=armeabi-v7a
+    - TRAVIS_DIR=./.travis
 
 
 android:
@@ -43,7 +44,7 @@ cache:
 
 
 before_install:
-  - export TZ=Asia/Tokyo
+  - export TZ='Asia/Tokyo'
   - mkdir -p "$ANDROID_HOME/licenses"
   - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
   - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
@@ -60,9 +61,9 @@ before_script:
 
 
 script:
-  - ./gradlew -s clean
-  - ./gradlew -s app:connectedDevDebugAndroidTest
+  - ALPHA_TAG=`ruby $TRAVIS_DIR/alpha_tag_detector.rb`
+  - ruby $TRAVIS_DIR/apk_builder.rb test $ALPHA_TAG
 
 
 after_success:
-  - ruby ./.travis/apk_builder.rb ${BRANCH} $encrypted_storepass $encrypted_keypass
+  - ruby $TRAVIS_DIR/apk_builder.rb send ${BRANCH} $encrypted_storepass $encrypted_keypass
