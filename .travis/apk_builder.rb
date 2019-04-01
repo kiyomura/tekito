@@ -68,7 +68,7 @@ def upload_map_command(variants)
 =end
 end
 
-puts(
+exec(
   case CMD
     when 'test'
       <<-EOS
