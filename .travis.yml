@@ -61,7 +61,7 @@ before_script:
 
 script:
   - ./gradlew -s clean
-  - ./gradlew -s app:connectedDebugAndroidTest
+  - ./gradlew -s app:connectedDevDebugAndroidTest
 
 
 after_success:
